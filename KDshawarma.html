@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KD Yummy Shawarma</title>
+  <style>
+  body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background-image: url('shawarma.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: whitesmoke;
+  text-shadow: 2px 2px 2px #000;
+}
+
+header {
+  background: rgba(255,152,0,0.85);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+nav {
+  background: rgba(255,183,77,0.85);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+nav a {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.container {
+  flex: 1;
+  padding: auto;
+  border-radius: auto;
+  margin: auto;
+  max-width: auto;
+}
+
+.menu-item {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ff9800;
+}
+
+button {
+  background: #ff9800;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cart-box {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  border: 1px solid burlywood;
+}
+
+footer {
+  text-align: center;
+  background: rgba(222,184,135,0.85);
+  padding: 10px;
+  color: black;
+  margin-top: auto;
+}
+
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    KD Yummy Shawarma
+  </header>
+
+  <nav>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('menu')">Menu</a>
+    <a onclick="showPage('cart')">Cart</a>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div id="home" class="container">
+    <h2>Welcome to KD Yummy Shawarma</h2>
+    <p>Hey foodies Around here, we don’t just roll shawarma — we roll happiness, spice, and that sweet KD flavor you love.Every bite is made with care, flavor, and a whole lot of Yummy energy. 😋Thanks for being part of the KD family — you make every wrap worth it! Stay saucy, stay satisfied 🌯🔥#KDYummyShawarma #TasteTheYummy. A Taste Will Convince You!</p>
+    <p>“Hungry? Let KD Shawarma handle that craving like a boss 😋🔥” “Shawarma so good… you’ll text your ex ‘you’re missing out’ 🤭🌯”</p>
+    <button onclick="showPage('menu')">Order Now</button>
+  </div>
+
+  <!-- MENU PAGE -->
+  <div id="menu" class="container" style="display:none;">
+    <h2>Menu</h2>
+    <div class="menu-item">
+      <div>Chicken Single Sausage - ₦3000</div>
+      <button onclick="addToCart('Chicken Single Sausage', 2500)">Add</button>
+    </div>
+
+    <div class="menu-item">
+      <div>Chicken Double Sausage - ₦3500</div>
+      <button onclick="addToCart('Chicken Double Sausage', 3000)">Add</button>
+    </div>
+
+    <div class="menu-item">
+      <div>Beef Single Sausage - ₦2000</div>
+      <button onclick="addToCart('Beef Shawarma', 2000)">Add</button>
+    </div>
+
+    <div class="menu-item">
+      <div>Beef Double Sausage - ₦2500</div>
+      <button onclick="addToCart('Beef Shawarma', 2500)">Add</button>
+    </div>
+    <div id="extra" class="container" style="display:none;"></div>
+    <h3>extra</h3> 
+        <div class="extra-item">
+      <div>Parfait (Small) - ₦4000</div>
+      <button onclick="addToCart('Parfait Small', 4000)">Add</button>
+    </div>
+
+    <div class="extra-item">
+      <div>Parfait (Large) - ₦7000</div>
+      <button onclick="addToCart('Parfait Large', 7000)">Add</button>
+    </div>
+
+    <div class="extra-item">
+      <div>Mango Smoothie - ₦3000</div>
+      <button onclick="addToCart('Mango Smoothie', 3000)">Add</button>
+    </div>
+
+    <div class="extra-item">
+      <div>Strawberry Smoothie - ₦4000</div>
+      <button onclick="addToCart('Strawberry Smoothie', 4000)">Add</button>
+    </div>
+
+
+  </div>
+
+  <!-- CART PAGE -->
+  <div id="cart" class="container" style="display:none;">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-box">
+      <strong>Total: ₦<span id="total">0</span></strong><br><br>
+      <button onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 KD Yummy Shawarma - All Rights Reserved
+  </footer>
+
+ <script>
+  let cart = [];
+
+  function showPage(page) {
+    document.getElementById('home').style.display = "none";
+    document.getElementById('menu').style.display = "none";
+    document.getElementById('cart').style.display = "none";
+    document.getElementById(page).style.display = "block";
+    if (page === "cart") loadCart();
+  }
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    alert(name + " added to cart!");
+  }
+
+  function loadCart() {
+    let cartItems = "";
+    let total = 0;
+    cart.forEach(item => {
+      cartItems += `<p>🍖 ${item.name} - ₦${item.price}</p>`;
+      total += item.price;
+    });
+    document.getElementById("cartItems").innerHTML = cartItems || "Cart is empty";
+    document.getElementById("total").innerText = total;
+  }
+
+  function checkout() {
+    if (cart.length === 0) {
+      alert("Cart is empty!");
+      return;
+    }
+
+    let orderList = cart.map(item => `${item.name} - ₦${item.price}`).join("%0A");
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+    let phone = "2349050164501"; // WhatsApp number
+    let paystackLink = "https://paystack.com/pay/yourcustomlink"; // Paystack link
+
+    let message = `Hello KD Yummy Shawarma!%0A%0AHere is my order:%0A${orderList}%0A%0ATotal: ₦${total}%0A%0APlease confirm delivery.`;
+
+    let choice = confirm(`Your total is ₦${total}.\n\nClick OK to pay with Paystack.\nClick Cancel to order via WhatsApp.`);
+
+    if (choice) {
+      window.location.href = paystackLink;
+    } else {
+      window.location.href = `https://wa.me/${phone}?text=I made an order from KD Yummy Shawarma!%0A%0A${message}`;
+    }
+
+    cart = [];
+  }
+</script>
+
+</body>
+</html>
